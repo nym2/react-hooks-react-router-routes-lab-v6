@@ -8,30 +8,42 @@ const actors = [
 ];
 
 function Actors() {
-  return (
-    <>
-      <NavBar />
-      <header>
-        <h1>Actors Page</h1>
-      </header>
-      <main>
-        {actors.map((actor, index) => (
-          <article key={index}>
-            <h2>{actor.name}</h2>
-            {actor.movies && actor.movies.length > 0 ? (
+  try {
+    if (!actors || actors.length === 0) {
+      throw new Error("No actors found");
+    }
+
+    return (
+      <>
+        <NavBar />
+        <header>
+          <h1>Actors Page</h1>
+        </header>
+        <main>
+          {actors.map((actor, index) => (
+            <article key={index}>
+              <h2>{actor.name}</h2>
               <ul>
                 {actor.movies.map((movie, idx) => (
                   <li key={idx}>{movie}</li>
                 ))}
               </ul>
-            ) : (
-              <p>No movies available</p>
-            )}
-          </article>
-        ))}
-      </main>
-    </>
-  );
+            </article>
+          ))}
+        </main>
+      </>
+    );
+  } catch (error) {
+    console.error(error); // Error caught and logged
+    return (
+      <>
+        <NavBar />
+        <header>
+          <h1>Actors Not Available</h1>
+        </header>
+      </>
+    );
+  }
 }
 
 export default Actors;

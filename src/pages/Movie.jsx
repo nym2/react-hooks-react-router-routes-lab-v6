@@ -11,7 +11,28 @@ function Movie() {
   const { id } = useParams();
   const movie = movieDetails[id];
 
-  if (!movie) {
+  // Suppress errors from console.log
+  try {
+    if (!movie) {
+      throw new Error("Movie not found");
+    }
+
+    return (
+      <>
+        <NavBar />
+        <header>
+          <h1>{movie.title}</h1>
+        </header>
+        <main>
+          <p>{movie.time} mins</p>
+          {movie.genres.map((genre, index) => (
+            <span key={index}>{genre}</span>
+          ))}
+        </main>
+      </>
+    );
+  } catch (error) {
+    console.error(error); // This is logged if necessary
     return (
       <>
         <NavBar />
@@ -21,25 +42,6 @@ function Movie() {
       </>
     );
   }
-
-  return (
-    <>
-      <NavBar />
-      <header>
-        <h1>{movie.title}</h1>
-      </header>
-      <main>
-        <p>{movie.time}</p>
-        {movie.genres && movie.genres.length > 0 ? (
-          movie.genres.map((genre, index) => (
-            <span key={index}>{genre}</span>
-          ))
-        ) : (
-          <span>No genres available</span>
-        )}
-      </main>
-    </>
-  );
 }
 
 export default Movie;

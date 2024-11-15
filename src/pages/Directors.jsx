@@ -7,30 +7,42 @@ const directors = [
 ];
 
 function Directors() {
-  return (
-    <>
-      <NavBar />
-      <header>
-        <h1>Directors Page</h1>
-      </header>
-      <main>
-        {directors.map((director, index) => (
-          <article key={index}>
-            <h2>{director.name}</h2>
-            {director.movies && director.movies.length > 0 ? (
+  try {
+    if (!directors || directors.length === 0) {
+      throw new Error("No directors found");
+    }
+
+    return (
+      <>
+        <NavBar />
+        <header>
+          <h1>Directors Page</h1>
+        </header>
+        <main>
+          {directors.map((director, index) => (
+            <article key={index}>
+              <h2>{director.name}</h2>
               <ul>
                 {director.movies.map((movie, idx) => (
                   <li key={idx}>{movie}</li>
                 ))}
               </ul>
-            ) : (
-              <p>No movies available</p>
-            )}
-          </article>
-        ))}
-      </main>
-    </>
-  );
+            </article>
+          ))}
+        </main>
+      </>
+    );
+  } catch (error) {
+    console.error(error); // Error caught and logged
+    return (
+      <>
+        <NavBar />
+        <header>
+          <h1>Directors Not Available</h1>
+        </header>
+      </>
+    );
+  }
 }
 
 export default Directors;
